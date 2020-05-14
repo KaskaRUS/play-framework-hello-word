@@ -1,5 +1,6 @@
 package space.zhdanov.laboratory.carshop.services;
 
+import space.zhdanov.laboratory.carshop.contexts.MarkExecutionContext;
 import space.zhdanov.laboratory.carshop.entities.domain.Mark;
 import space.zhdanov.laboratory.carshop.repositories.MarkRepository;
 
@@ -10,7 +11,7 @@ import javax.inject.Singleton;
 public class MarkService extends CrudService<Mark, Long> {
 
     @Inject
-    public MarkService(MarkRepository markRepository) { //}, ItemRepository itemRepository) {
-        super(markRepository);
+    public MarkService(MarkRepository markRepository, MarkExecutionContext context) { //}, ItemRepository itemRepository) {
+        super(markRepository, context);
     }
 }

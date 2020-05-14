@@ -3,8 +3,6 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET           /                    space.zhdanov.laboratory.carshop.contollers.HomeController.index
-
 GET           /v1/marks            space.zhdanov.laboratory.carshop.contollers.v1.MarkController.getAllMarks
 GET           /v1/marks/:id        space.zhdanov.laboratory.carshop.contollers.v1.MarkController.getMark(id)
 POST          /v1/marks            space.zhdanov.laboratory.carshop.contollers.v1.MarkController.create(request:Request)

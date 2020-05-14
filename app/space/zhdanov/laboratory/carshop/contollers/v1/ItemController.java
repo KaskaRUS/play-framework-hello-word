@@ -1,6 +1,7 @@
 package space.zhdanov.laboratory.carshop.contollers.v1;
 
 import play.libs.Json;
+import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -10,48 +11,65 @@ import space.zhdanov.laboratory.carshop.services.ItemService;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
 public class ItemController extends Controller {
 
     private final ItemService itemService;
+    private final HttpExecutionContext hc;
 
     @Inject
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, HttpExecutionContext hc) {
         this.itemService = itemService;
+        this.hc = hc;
     }
 
-    public Result getAllItems() {
-        final List<ItemDTO> all = itemService.findAll().stream().map(ItemDTO::new).collect(Collectors.toList());
-        return ok(Json.toJson(all));
+    public CompletionStage<Result> getAllItems() {
+        return itemService.findAll().thenApplyAsync(
+                list -> {
+                    final List<ItemDTO> dto = list.stream().map(ItemDTO::new).collect(Collectors.toList());
+                    return ok(Json.toJson(dto));
+                },
+                hc.current()
+        );
     }
 
-    public Result getItem(String idArg) {
+    public CompletionStage<Result> getItem(String idArg) {
         final long id = Long.parseLong(idArg);
-        return itemService.findById(id)
-                .map(ItemDTO::new)
-                .map(Json::toJson)
-                .map(Results::ok)
-                .orElseGet(Results::notFound);
+
+        return itemService.findById(id).thenApplyAsync(
+                mark -> mark.map(ItemDTO::new)
+                        .map(Json::toJson)
+                        .map(Results::ok).orElseGet(Results::notFound),
+                hc.current()
+        );
     }
 
-    public Result create(Http.Request request) {
+    public CompletionStage<Result> create(Http.Request request) {
         final ItemDTO dto = Json.fromJson(request.body().asJson(), ItemDTO.class);
-        final ItemDTO created = new ItemDTO(itemService.save(dto.toDomain()));
-        return ok(Json.toJson(created));
+        return itemService.save(dto.toDomain()).thenApplyAsync(
+                mark -> ok(Json.toJson(new ItemDTO(mark))),
+                hc.current()
+        );
     }
 
-    public Result put(Http.Request request, String idArg) {
+    public CompletionStage<Result> put(Http.Request request, String idArg) {
         final long id = Long.parseLong(idArg);
         final ItemDTO dto = Json.fromJson(request.body().asJson(), ItemDTO.class);
         dto.setId(id);
-        final ItemDTO created = new ItemDTO(itemService.save(dto.toDomain()));
-        return ok(Json.toJson(created));
+        return itemService.save(dto.toDomain()).thenApplyAsync(
+                mark -> ok(Json.toJson(new ItemDTO(mark))),
+                hc.current()
+        );
     }
 
-    public Result delete(String idArg) {
+    public CompletionStage<Result> delete(String idArg) {
         final long id = Long.parseLong(idArg);
-        itemService.deleteById(id);
-        return noContent();
+
+        return itemService.deleteById(id).thenApplyAsync(
+                nothing -> ok(),
+                hc.current()
+        );
     }
 }
