@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="space.zhdanov.laboratory.carshop.repositories.ItemRepository">
+
+    <select id="findAll" resultMap="itemResultMap">
+        SELECT items.id as id, marks.id as mark_id, marks.name as mark_name, marks.country as mark_country
+        FROM items
+        LEFT JOIN marks on marks.id = items.mark_id
+    </select>
+
+    <select id="findById" parameterType="Long" resultMap="itemResultMap">
+        SELECT items.id as id, marks.id as mark_id, marks.name as mark_name, marks.country as mark_country
+        FROM items
+        LEFT JOIN marks on marks.id = items.mark_id
+        WHERE items.id = #{id}
+    </select>
+
+    <select id="lastInsertId" resultType="Long">
+        SELECT LAST_INSERT_ID();
+    </select>
+
+    <insert id="insert" parameterType="space.zhdanov.laboratory.carshop.entities.domain.Item">
+      insert into items (mark_id)
+      values (#{mark.id})
+    </insert>
+
+    <update id="update" parameterType="space.zhdanov.laboratory.carshop.entities.domain.Item">
+      update items set
+        items.mark_id = #{mark.id}
+      where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="Long">
+      delete from items where id = #{id}
+    </delete>
+
+    <resultMap id="itemResultMap" type="space.zhdanov.laboratory.carshop.entities.domain.Item">
+        <result property="id" column="id"/>
+        <association property="mark" javaType="space.zhdanov.laboratory.carshop.entities.domain.Mark">
+            <id property="id" column="mark_id"/>
+            <result property="name" column="mark_name"/>
+            <result property="country" column="mark_country"/>
+        </association>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="space.zhdanov.laboratory.carshop.repositories.MarkRepository">
+
+    <select id="findAll" resultMap="markResultMap">
+        SELECT * FROM marks
+    </select>
+
+    <select id="findById" parameterType="Long" resultMap="markResultMap">
+        SELECT * FROM marks WHERE id = #{id}
+    </select>
+
+    <select id="lastInsertId" resultType="Long">
+        SELECT LAST_INSERT_ID();
+    </select>
+
+    <insert id="insert" parameterType="space.zhdanov.laboratory.carshop.entities.domain.Mark">
+      insert into marks (name, country)
+      values (#{name},#{country})
+    </insert>
+
+    <update id="update" parameterType="space.zhdanov.laboratory.carshop.entities.domain.Mark">
+      update marks set
+        name = #{name},
+        country = #{country}
+      where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="Long">
+      delete from marks where id = #{id}
+    </delete>
+
+    <resultMap id="markResultMap" type="space.zhdanov.laboratory.carshop.entities.domain.Mark">
+    </resultMap>
+
+</mapper>

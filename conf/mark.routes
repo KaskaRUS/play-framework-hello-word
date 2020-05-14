@@ -1,0 +1,5 @@
+GET           /           space.zhdanov.laboratory.carshop.contollers.v1.MarkController.getAllMarks
+GET           /:id        space.zhdanov.laboratory.carshop.contollers.v1.MarkController.getMark(id)
+POST          /           space.zhdanov.laboratory.carshop.contollers.v1.MarkController.create(request:Request)
+PUT           /:id        space.zhdanov.laboratory.carshop.contollers.v1.MarkController.put(request:Request, id)
+DELETE        /:id        space.zhdanov.laboratory.carshop.contollers.v1.MarkController.delete(id)
