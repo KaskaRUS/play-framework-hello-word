@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="space.zhdanov.laboratory.carshop.repositories.ModelRepository">
+
+    <select id="findAll" resultMap="modelResultMap">
+        SELECT * FROM models
+    </select>
+
+    <select id="findById" parameterType="Long" resultMap="modelResultMap">
+        SELECT * FROM models WHERE id = #{id}
+    </select>
+
+    <select id="lastInsertId" resultType="Long">
+        SELECT LAST_INSERT_ID();
+    </select>
+
+    <insert id="insert" parameterType="space.zhdanov.laboratory.carshop.entities.domain.Model">
+      insert into models (name, production_start_date, production_finish_date)
+      values (#{name},#{productionStartDate},#{productionFinishDate})
+    </insert>
+
+    <update id="update" parameterType="space.zhdanov.laboratory.carshop.entities.domain.Model">
+      update models set
+        name = #{name},
+        production_start_date = #{productionStartDate},
+        production_finish_date = #{productionFinishDate}
+      where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="Long">
+      delete from models where id = #{id}
+    </delete>
+
+    <resultMap id="modelResultMap" type="space.zhdanov.laboratory.carshop.entities.domain.Model">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="productionStartDate" column="production_start_date"/>
+        <result property="productionFinishDate" column="production_finish_date"/>
+    </resultMap>
+
+</mapper>

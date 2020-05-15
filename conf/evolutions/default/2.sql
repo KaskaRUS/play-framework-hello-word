@@ -1,11 +1,13 @@
 -- !Ups
 
-CREATE TABLE items (
+CREATE TABLE models (
         id bigint(20) NOT NULL AUTO_INCREMENT,
-        mark_id bigint(20),
+        name varchar(255) NOT NULL,
+        production_start_date DATE NOT NULL,
+        production_finish_date DATE,
         PRIMARY KEY (id)
 );
 
 -- !Downs
 
-DROP TABLE items;
+DROP TABLE models;

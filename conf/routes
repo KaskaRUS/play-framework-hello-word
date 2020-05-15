@@ -3,18 +3,24 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET           /v1/marks            space.zhdanov.laboratory.carshop.contollers.v1.MarkController.getAllMarks
-GET           /v1/marks/:id        space.zhdanov.laboratory.carshop.contollers.v1.MarkController.getMark(id)
-POST          /v1/marks            space.zhdanov.laboratory.carshop.contollers.v1.MarkController.create(request:Request)
-PUT           /v1/marks/:id        space.zhdanov.laboratory.carshop.contollers.v1.MarkController.put(request:Request, id)
-DELETE        /v1/marks/:id        space.zhdanov.laboratory.carshop.contollers.v1.MarkController.delete(id)
+GET           /v1/marks             space.zhdanov.laboratory.carshop.contollers.v1.MarkController.getAllMarks
+GET           /v1/marks/:id         space.zhdanov.laboratory.carshop.contollers.v1.MarkController.getMark(id)
+POST          /v1/marks             space.zhdanov.laboratory.carshop.contollers.v1.MarkController.create(request:Request)
+PUT           /v1/marks/:id         space.zhdanov.laboratory.carshop.contollers.v1.MarkController.put(request:Request, id)
+DELETE        /v1/marks/:id         space.zhdanov.laboratory.carshop.contollers.v1.MarkController.delete(id)
 
-GET           /v1/items            space.zhdanov.laboratory.carshop.contollers.v1.ItemController.getAllItems
-GET           /v1/items/:id        space.zhdanov.laboratory.carshop.contollers.v1.ItemController.getItem(id)
-POST          /v1/items            space.zhdanov.laboratory.carshop.contollers.v1.ItemController.create(request:Request)
-PUT           /v1/items/:id        space.zhdanov.laboratory.carshop.contollers.v1.ItemController.put(request:Request, id)
-DELETE        /v1/items/:id        space.zhdanov.laboratory.carshop.contollers.v1.ItemController.delete(id)
+GET           /v1/items             space.zhdanov.laboratory.carshop.contollers.v1.ItemController.getAllItems
+GET           /v1/items/:id         space.zhdanov.laboratory.carshop.contollers.v1.ItemController.getItem(id)
+POST          /v1/items             space.zhdanov.laboratory.carshop.contollers.v1.ItemController.create(request:Request)
+PUT           /v1/items/:id         space.zhdanov.laboratory.carshop.contollers.v1.ItemController.put(request:Request, id)
+DELETE        /v1/items/:id         space.zhdanov.laboratory.carshop.contollers.v1.ItemController.delete(id)
+
+GET           /v1/models            space.zhdanov.laboratory.carshop.contollers.v1.ModelController.getAllModel
+GET           /v1/models/:id        space.zhdanov.laboratory.carshop.contollers.v1.ModelController.getModel(id)
+POST          /v1/models            space.zhdanov.laboratory.carshop.contollers.v1.ModelController.create(request:Request)
+PUT           /v1/models/:id        space.zhdanov.laboratory.carshop.contollers.v1.ModelController.put(request:Request, id)
+DELETE        /v1/models/:id        space.zhdanov.laboratory.carshop.contollers.v1.ModelController.delete(id)
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET           /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file         controllers.Assets.versioned(path="/public", file: Asset)

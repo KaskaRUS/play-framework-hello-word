@@ -11,7 +11,7 @@ import javax.inject.Singleton;
 public class MarkService extends CrudService<Mark, Long> {
 
     @Inject
-    public MarkService(MarkRepository markRepository, MarkExecutionContext context) { //}, ItemRepository itemRepository) {
+    public MarkService(MarkRepository markRepository, MarkExecutionContext context) {
         super(markRepository, context);
     }
 }

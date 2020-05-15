@@ -1,5 +1,7 @@
 package space.zhdanov.laboratory.carshop.entities.domain;
 
+import java.util.Objects;
+
 public class Mark implements Identity<Long> {
     private Long id;
     private String name;
@@ -37,5 +39,20 @@ public class Mark implements Identity<Long> {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Mark)) return false;
+        Mark mark = (Mark) o;
+        return Objects.equals(id, mark.id) &&
+                Objects.equals(name, mark.name) &&
+                Objects.equals(country, mark.country);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, country);
     }
 }
