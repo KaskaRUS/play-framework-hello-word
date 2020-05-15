@@ -15,9 +15,13 @@ public class Item implements Identity<Long> {
     public Item() {
     }
 
-    public Item(Long id, Mark mark) {
+    public Item(Long id, Mark mark, Model model, LocalDate productionDate, BigDecimal cost, Integer mileage) {
         this.id = id;
         this.mark = mark;
+        this.model = model;
+        this.productionDate = productionDate;
+        this.cost = cost;
+        this.mileage = mileage;
     }
 
     @Override

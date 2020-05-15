@@ -3,15 +3,25 @@
 <mapper namespace="space.zhdanov.laboratory.carshop.repositories.ItemRepository">
 
     <select id="findAll" resultMap="itemResultMap">
-        SELECT items.id as id, marks.id as mark_id, marks.name as mark_name, marks.country as mark_country
+        SELECT items.id as id, items.production_date as production_date, items.cost as cost, items.mileage as mileage,
+            marks.id as mark_id, marks.name as mark_name, marks.country as mark_country,
+            models.id as model_id, models.name as model_name,
+            models.production_start_date as model_production_start_date,
+            models.production_finish_date as model_production_finish_date
         FROM items
         LEFT JOIN marks on marks.id = items.mark_id
+        LEFT JOIN models on models.id = items.model_id
     </select>
 
     <select id="findById" parameterType="Long" resultMap="itemResultMap">
-        SELECT items.id as id, marks.id as mark_id, marks.name as mark_name, marks.country as mark_country
+        SELECT items.id as id, items.production_date as production_date, items.cost as cost, items.mileage as mileage,
+            marks.id as mark_id, marks.name as mark_name, marks.country as mark_country,
+            models.id as model_id, models.name as model_name,
+            models.production_start_date as model_production_start_date,
+            models.production_finish_date as model_production_finish_date
         FROM items
         LEFT JOIN marks on marks.id = items.mark_id
+        LEFT JOIN models on models.id = items.model_id
         WHERE items.id = #{id}
     </select>
 
@@ -20,13 +30,17 @@
     </select>
 
     <insert id="insert" parameterType="space.zhdanov.laboratory.carshop.entities.domain.Item">
-      insert into items (mark_id)
-      values (#{mark.id})
+      insert into items (mark_id, model_id, production_date, cost, mileage)
+      values (#{mark.id}, #{model.id}, #{productionDate}, #{cost}, #{mileage})
     </insert>
 
     <update id="update" parameterType="space.zhdanov.laboratory.carshop.entities.domain.Item">
       update items set
-        items.mark_id = #{mark.id}
+        items.mark_id = #{mark.id},
+        items.model_id = #{model.id},
+        items.production_date = #{productionDate},
+        items.cost = #{cost},
+        items.mileage = #{mileage}
       where id = #{id}
     </update>
 
@@ -35,11 +49,20 @@
     </delete>
 
     <resultMap id="itemResultMap" type="space.zhdanov.laboratory.carshop.entities.domain.Item">
-        <result property="id" column="id"/>
+        <id property="id" column="id"/>
+        <result property="productionDate" column="production_date"/>
+        <result property="cost" column="cost"/>
+        <result property="mileage" column="mileage"/>
         <association property="mark" javaType="space.zhdanov.laboratory.carshop.entities.domain.Mark">
             <id property="id" column="mark_id"/>
             <result property="name" column="mark_name"/>
             <result property="country" column="mark_country"/>
+        </association>
+        <association property="model" javaType="space.zhdanov.laboratory.carshop.entities.domain.Model">
+            <id property="id" column="model_id"/>
+            <result property="name" column="model_name"/>
+            <result property="productionStartDate" column="model_production_start_date"/>
+            <result property="productionFinishDate" column="model_production_finish_date"/>
         </association>
     </resultMap>
 
