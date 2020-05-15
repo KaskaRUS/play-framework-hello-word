@@ -5,7 +5,8 @@ import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import play.mvc.Results;
+import play.mvc.With;
+import space.zhdanov.laboratory.carshop.contollers.actions.RestAction;
 import space.zhdanov.laboratory.carshop.entities.dto.v1.MarkDTO;
 import space.zhdanov.laboratory.carshop.services.MarkService;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
+@With(RestAction.class)
 public class MarkController extends Controller {
 
     private final MarkService markService;
@@ -39,9 +41,7 @@ public class MarkController extends Controller {
         final long id = Long.parseLong(idArg);
 
         return markService.findById(id).thenApplyAsync(
-                mark -> mark.map(MarkDTO::new)
-                        .map(Json::toJson)
-                        .map(Results::ok).orElseGet(Results::notFound),
+                mark -> ok(Json.toJson(new MarkDTO(mark))),
                 hc.current()
         );
     }

@@ -4,10 +4,10 @@ import org.mybatis.guice.transactional.Transactional;
 import play.libs.concurrent.CustomExecutionContext;
 import space.zhdanov.laboratory.carshop.entities.domain.Identity;
 import space.zhdanov.laboratory.carshop.exceptions.CreatedEntityException;
+import space.zhdanov.laboratory.carshop.exceptions.NotFoundException;
 import space.zhdanov.laboratory.carshop.repositories.CrudRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -24,8 +24,10 @@ public abstract class CrudService<T extends Identity<K>, K> {
         return CompletableFuture.supplyAsync(crudRepository::findAll, context);
     }
 
-    public CompletionStage<Optional<T>> findById(K id) {
-        return CompletableFuture.supplyAsync(() -> crudRepository.findById(id), context);
+    public CompletionStage<T> findById(K id) {
+        return CompletableFuture.supplyAsync(() ->
+                        crudRepository.findById(id).orElseThrow(() -> new NotFoundException(id)),
+                context);
     }
 
     public CompletionStage<T> save(T entity) {
